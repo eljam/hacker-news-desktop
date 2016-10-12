@@ -1,8 +1,9 @@
-'use strict';
+import menubar from 'menubar';
+import electron, { ipcMain } from 'electron';
 
-const electron = require('electron');
 // Module to control application life.
 const app = electron.app;
+
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
@@ -48,4 +49,21 @@ app.on('activate', function () {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+// menubar
+const mb = menubar({
+  'width': 500,
+  'height': 700,
+  'preload-window': true,
+  'resizable': false
+});
+mb.on('ready', function ready () {
+  console.log('app is ready')
+  // your app code here
+});
+
+// ipc communication
+ipcMain.on('quit', () => {
+  app.quit();
 });
